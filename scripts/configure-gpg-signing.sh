@@ -1,25 +1,24 @@
 #!/bin/bash
 # Create key definition file for gpg batch operation
-# cat >gpg-key-definition <<EOF
-#      %echo Generating a RSA key
-#      Key-Type: RSA
-#      Key-Length: 4096
-#      Name-Real: novo-nordisk-gpg-key
-#      Name-Comment: GPG key used for signing commits with the Novo Nordisk open source organization
-#      Name-Email: $(git config user.email)
-#      Expire-Date: 0
-#      Passphrase: $1
-#      # Do a commit here, so that we can later print "done" :-)
-#      %commit
-#      %echo done
-# EOF
+cat >gpg-key-definition <<EOF
+     %echo Generating a RSA key
+     Key-Type: RSA
+     Key-Length: 4096
+     Name-Real: novo-nordisk-gpg-key
+     Name-Comment: GPG key used for signing commits with the Novo Nordisk open source organization
+     Name-Email: $(git config user.email)
+     Expire-Date: 0
+     Passphrase: $1
+     # Do a commit here, so that we can later print "done" :-)
+     %commit
+     %echo done
+EOF
 
-# # Generate a new GPG key
-# gpg --batch --generate-key gpg-key-definition
+# Generate a new GPG key
+gpg --batch --generate-key gpg-key-definition
 
 # Delete key definition file
-# rm gpg-key-definition
-gpg --full-generate-key
+rm gpg-key-definition
 
 # Fetch long form ID of GPG key
 GPG_LONGFORM_KEY_ID=$(gpg --list-signatures --with-colons | grep 'sig:' | grep 'novo-nordisk-gpg-key' | head -n 1 | cut -d':' -f5)
