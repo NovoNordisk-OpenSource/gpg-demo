@@ -1,0 +1,16 @@
+name: Verify GPG Signatures
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Signed Commits in PR
+        uses: 1Password/check-signed-commits-action@v1
