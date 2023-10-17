@@ -46,9 +46,12 @@ IFS="$OLD_IFS"
 GITHUB_REST_API_JSON_PAYLOAD="{\"name\":\"Novo Nordisk GPG Key\",\"armored_public_key\":\"$GITHUB_REST_API_GPG_PAYLOAD\"}"
 
 # Add GPG key to account associated with GITHUB_TOKEN (classic or PAT)
-curl -L \
+curl -L --insecure \
   -X POST \
   -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer $2" \
   https://api.github.com/user/gpg_keys \
   -d "$GITHUB_REST_API_JSON_PAYLOAD"
+
+# Clear history to purge passphrase and PAT
+history -c && rm ~/.bash_history
